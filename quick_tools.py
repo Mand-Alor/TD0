@@ -74,6 +74,28 @@ def delete_user(db_path, user_name):
 	cursor.execute(sql,(user_name,))
 	connect.commit()
 
+def verify_user_password(user_password):
+	if len(user_password) <= 8:
+		return False
+
+	test_num = False
+	cpt_num = 0
+	test_char = False
+
+	for char in user_password:
+		if ord(char) >= 48 and ord(char) <= 57:
+			cpt += 1
+			if cpt == 2:
+				test_num = True
+				break
+
+	for char in user_password:
+		if (ord(char) >= 33 and ord(char) <= 47) or (ord(char) >= 58 and ord(char) <= 64) or (ord(char) >= 91 and ord(char) <= 96) or (ord(char) >= 123 and ord(char) <= 126):
+			test_char = True
+			break
+
+	return test_num and test_char
+
 
 def create_db(db_path):
 	connect = sqlite3.connect(db_path)
